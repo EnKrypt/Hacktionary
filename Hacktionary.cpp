@@ -16,18 +16,18 @@ void cls(){
 
 int GetNumber(string prompt){
     string inp="";
-    int num=0;
-    while (num==0){
+    int num;
+    do{
         cout << prompt;
         cin >> inp;
         num = atoi(inp.c_str());
-    }
+    }while(num==0);
     return num;
 }
 
 char* setArray(int arr[]){
     int h=0;
-    char dupl[128];
+    char* dupl=new char[128];
     for (int i=0;i<sizeof(arr);i+=2){
         for (int j=arr[i];j<=arr[i+1];j++){
             dupl[h]=j;
@@ -38,17 +38,13 @@ char* setArray(int arr[]){
 }
 
 char* getCharset(int &len){
-    char arr[128];
-    cout << "\nType a continuous string of characters without spaces.\nThe characters can repeat but their length must be below 128\n\n";
+    cout << "\nType a continuous string of characters without spaces.\nThe characters may repeat.\n\n";
     string inp;
     cin >> inp;
-    len = sizeof(inp);
-    if (len>128){
-        cout << "Character list is too long.";
-        exit(EXIT_FAILURE);
-    }
+    len = inp.length();
+    char* arr=new char[len];
     for (int i=0;i<len;i++){
-        arr[i]=inp.at(i);
+        arr[i]=inp[i];
     }
     return arr;
 }
@@ -149,13 +145,6 @@ int main(){
         }
     }
 
-    char charset[len];
-    for (int i=0;i<len;i++){
-        charset[i]=*(cset+i);
-    }
-
-
-
 
 
 
@@ -163,8 +152,8 @@ int main(){
 
 
     //debug
-    for (int i=0;i<sizeof(charset);i++){
-        cout << charset[i] << " ";
+    for (int i=0;i<len;i++){
+        cout << cset[i] << " ";
     }
 
     return 0;

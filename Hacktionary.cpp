@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <sstream>
+#include <math.h>
 
 using namespace std;
 
@@ -14,7 +16,7 @@ void cls(){
     #endif
 }
 
-int GetNumber(string prompt){
+int getNumber(string prompt){
     string inp="";
     int num;
     do{
@@ -22,6 +24,15 @@ int GetNumber(string prompt){
         cin >> inp;
         num = atoi(inp.c_str());
     }while(num==0);
+    return num;
+}
+
+int getInt(string prompt){
+    string inp="";
+    int num;
+    cout << prompt;
+    cin >> inp;
+    num = atoi(inp.c_str());
     return num;
 }
 
@@ -51,6 +62,10 @@ char* getCharset(int &len){
 
 int main(){
     string trash="";
+    char *cset;
+    int len;
+    int start;
+    int stop;
 
     cout << "                  Hacktionary v1.0\n\n";
     cout << "*******************************************************\n\n";
@@ -64,8 +79,6 @@ int main(){
     getline(cin, trash);
     cls();
 
-    char *cset;
-    int len;
     cout << "                CHARACTER SETS\n\n";
     cout << "1. Letters (All Caps) : A-Z\n";
     cout << "2. Letters (No Caps) : a-z\n";
@@ -77,7 +90,7 @@ int main(){
     cout << "8. Alphanumeric + Symbols : ASCII(32)-ASCII(126)\n";
     cout << "9. Full ASCII : ASCII(0)-ASCII(127)\n";
     cout << "10. Define Custom Range\n\n";
-    int ch=GetNumber("Choose an option : ");
+    int ch=getNumber("Choose an option : ");
 
     switch(ch){
         case 1:{
@@ -145,16 +158,32 @@ int main(){
         }
     }
 
+    start = getInt("\nStart Limit - Enter the size of the first word\nin the dictionary. Default is 0 : ");
+    if (start<0){
+        cout << "Invalid input. Using default value.\n";
+        start=0;
+    }
+    stringstream ss;
+    ss << (start+10);
+    stop = getInt("\nStop Limit - Enter the size of the last word\nin the dictionary. Default is " + ss.str() + " : ");
+    if (stop<start){
+        cout << "Invalid input. Using default value.\n";
+        stop=start+10;
+    }
 
-
+    cls();
+    cout << "Calculating Disk space required.\nPlease Wait...";
+    long double space=0;
+    for (int i=start;i<=stop;i++){
+        space+=((pow(len,i))*i)+1;
+    }
+    space+=10;
+    cout << "\n\n" << std::fixed << (space/1024.0d) << " KB of Disk space required.";
 
 
 
 
     //debug
-    for (int i=0;i<len;i++){
-        cout << cset[i] << " ";
-    }
 
     return 0;
 }

@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <math.h>
+#include <limits.h>
 
 using namespace std;
 
@@ -64,6 +65,8 @@ int main(){
     string trash="";
     char *cset;
     int len;
+    string append="";
+    string prepend="";
     int start;
     int stop;
 
@@ -171,11 +174,18 @@ int main(){
         stop=start+10;
     }
 
+    cin.ignore(INT_MAX,'\n');
+    cin.clear();
+    cout << "\nText to prepend in every word (Press ENTER to Skip) : ";
+    getline(cin, prepend);
+    cout << "\nText to append in every word (Press ENTER to Skip) : ";
+    getline(cin, append);
+
     cls();
     cout << "Calculating Disk space required.\nPlease Wait...";
     long double space=0;
     for (int i=start;i<=stop;i++){
-        space+=((pow(len,i))*i)+1;
+        space+=append.length()+prepend.length()+((pow(len,i))*i)+1;
     }
     space+=10;
     cout << "\n\n" << std::fixed << (space/1024.0d) << " KB of Disk space required.";

@@ -1,1 +1,66 @@
-README under construction
+Downloading Gigabytes of text files is a stupid and painful process.
+Instead , you could download a much smaller tool that generates these files for you.
+
+Hacktionary is a cross platform program that helps you generate wordlists or dictionary files to use for brute forcing or similar attacks.
+The files generated work best with applications such as aircrack-ng and Hydra.
+
+To run Hacktionary , simply compile the file and run the executable generated through the coommand line.
+In windows , you can double click the .exe file directly to start the program.
+
+----------------------------------------------------------
+The program needs to collect certain information first before it can generate your file.
+
+Press Enter to skip the introduction.
+Next , you will be presented with a list of character sets to use in the dictionary.
+Select the one you need by typing the option number and pressing enter.
+
+Note here that in some versions , the program might crash on selecting option 8 or 9.
+
+Option 10 allows you to define your own character set.
+If you choose a custom character set , you must enter the characters in the prompt as a single line of text without any space between the characters.
+Characters can be repeated in the custom character set. Press enter when done.
+Example : "abcdeabcdabcaba123"
+
+The program will then ask you for the Start limit. This is the number of characters the first word in your dictionary will have. 
+If you want your wordlist to start with "aaaaaa" , then 6 is your start limit. This applies to any other word example as well.
+Note : If you are trying to crack WPA through aircrack-ng , it is recommended that you set the start limit to 8 as WPA Pre Shared keys are eight characters or more in length.
+
+You must enter the Stop limit next. This is the number of characters the last word in your dictionary will have. 
+If you want your wordlist to end with "zzzzzzzz" , then 8 is your start limit. This applies to any other word example as well.
+Note : The Stop limit MUST be greater than or equal to the start limit. The default value specified will be used if you do not follow this rule.
+
+The program will next prompt you to type any prepending text. This is a piece of text that is attached at the beginning of every word generated.
+Example : If you set the prepend text to "header" , then your dictionary will have every word starting with "header". It might contain the following pattern :
+headeraaaa
+headeraaab
+headeraaac
+...
+headerzzzz
+
+You can press enter at the prompt to skip this step.
+
+Lastly , you will be prompted to enter any appending text. This is a piece of text that is attached at the end of every word generated.
+Example : If you set the append text to "footer" , then your dictionary will have every word ending with "footer". It might contain the following pattern :
+aaaafooter
+aaabfooter
+aaacfooter
+...
+zzzzfooter
+
+You can press enter at the prompt to skip this step.
+
+Well done! You have now supplied all the information necessary to generate your dictionary.
+The program will now calculate the amount of memory the dictionary file will take up and display it in Megabytes.
+It is recommended that you check that the disk from which the program is being accessed from has that much memory available.
+The program will run either way but will likely hang when the disk runs out of space.
+
+Press Enter when you are ready to start generating the file.
+The generation process may take several minutes depending on the size of the file.
+Wait for the program to terminate of it's own accord. You may not know while the program is still running. It may not respond while it generates the dictionary.
+The program will quit automatically once it finished the generation process.
+
+You will then have your dictionary file prepared as dictionary.lst
+You can find the file in the same directory as the Hacktionary program.
+-------------------------------------------------------------
+
+This program is protected under the GNU GPL v3.

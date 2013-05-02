@@ -22,6 +22,8 @@
 #include <sstream>
 #include <math.h>
 #include <limits.h>
+#include <stdio.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -77,6 +79,20 @@ char* getCharset(int &len){
         arr[i]=inp[i];
     }
     return arr;
+}
+
+void write(FILE *file,char *cset,int len,int i,int level,string word){
+    level++;
+    for (int j=0;j<len;j++){
+        word=string(word)+cset[j];
+        if (level<i){
+            write(file,cset,len,i,level,word);
+        }
+        else{
+            word=string(word)+"\n";
+            fputs(word.c_str(),file);
+        }
+    }
 }
 
 int main(){
@@ -209,13 +225,16 @@ int main(){
         space+=append.length()+prepend.length()+((pow(len,i))*i)+1;
     }
     space+=10;
-    cout << "\n" << combos << "Words."
+    cout << "\n" << combos << "Words.";
     cout << "\n" << std::fixed << ((space/1024.0d)/1024.0d) << " MB of Disk space required.";
-    cout << "Press ENTER to start generating : ";
+    cout << "\nIt is recommended that you have the available disk space before proceeding.";
+    cout << "\n\nPress ENTER to start generating : ";
     getline(cin, trash);
 
-
-
+    FILE *file=fopen("dictionary.lst","wb");
+    for (int i=start;i<stop;i++){
+        write(file,cset,len,i,0,"");
+    }
 
     //debug
 

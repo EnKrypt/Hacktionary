@@ -238,9 +238,9 @@ int main(){
         space+=append.length()+prepend.length()+((pow(len,i))*i)+1;
     }
     space+=10;
-    cout << "\n" << combos << "Words.";
+    cout << "\n" << std::fixed << std::setprecision(0) << combos << " Words.";
     cout << "\n" << std::fixed << std::setprecision(2) << ((space/1024.0d)/1024.0d) << " MB of Disk space required.";
-    cout << "\nIt is recommended that you have the available disk space before proceeding.";
+    cout << "\n\nIt is recommended that you have the available disk space before proceeding.";
     cout << "\n\nPress ENTER to start generating : ";
     getline(cin, trash);
 

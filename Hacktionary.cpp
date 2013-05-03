@@ -20,6 +20,7 @@
 #include <string>
 #include <cstdlib>
 #include <sstream>
+#include <iomanip>
 #include <math.h>
 #include <limits.h>
 #include <stdio.h>
@@ -29,10 +30,10 @@ using namespace std;
 
 void cls(){
     #if defined (__WIN32__)
-        system("CLS");
+        std::system("CLS");
     #else
         #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-            system("clear");
+            std::system("clear");
         #endif
     #endif
 }
@@ -81,16 +82,26 @@ char* getCharset(int &len){
     return arr;
 }
 
-void write(FILE *file,char *cset,int len,int i,int level,string word){
+void show(long double current,long double &combos,int &per){
+    long double currper=((int)((int)((combos/current)*100)/5)*5);
+    if (currper>per){
+        per=currper;
+        cout << per <<"%...";
+    }
+    return;
+}
+
+void write(FILE *file,char *cset,int len,int i,int level,string word,long double &current,long double combos,int &per){
     level++;
     for (int j=0;j<len;j++){
-        word=string(word)+cset[j];
         if (level<i){
-            write(file,cset,len,i,level,word);
+            write(file,cset,len,i,level,string(word)+cset[j],current,combos,per);
         }
         else{
-            word=string(word)+"\n";
-            fputs(word.c_str(),file);
+            string pword=string(word)+cset[j]+"\n";
+            fputs(pword.c_str(),file);
+            current++;
+            show(current,combos,per);
         }
     }
 }
@@ -105,6 +116,7 @@ int main(){
     int stop;
     long double space=0;
     long double combos=0;
+    long double current=1;
 
     cout << "                  Hacktionary v1.0\n\n";
     cout << "*******************************************************\n\n";
@@ -226,17 +238,24 @@ int main(){
     }
     space+=10;
     cout << "\n" << combos << "Words.";
-    cout << "\n" << std::fixed << ((space/1024.0d)/1024.0d) << " MB of Disk space required.";
+    cout << "\n" << std::fixed << std::setprecision(2) << ((space/1024.0d)/1024.0d) << " MB of Disk space required.";
     cout << "\nIt is recommended that you have the available disk space before proceeding.";
     cout << "\n\nPress ENTER to start generating : ";
     getline(cin, trash);
 
+    cls();
+    int per=0;
+    cout << "Generating dictionary. This may take several minutes.\nPlease wait...\n";
     FILE *file=fopen("dictionary.lst","wb");
-    for (int i=start;i<stop;i++){
-        write(file,cset,len,i,0,"");
+    for (int i=start;i<=stop;i++){
+        write(file,cset,len,i,0,"",current,combos,per);
     }
+    current=0;
 
-    //debug
+    cls();
+    cout << "Done! Dictionary successfully generated.\n";
+    cout << "Dictionary file saved as dictionary.lst in working directory.\n\n";
+    cout << "Hacktionary will now terminate.";
 
     return 0;
 }

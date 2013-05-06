@@ -24,7 +24,6 @@
 #include <math.h>
 #include <limits.h>
 #include <stdio.h>
-#include <conio.h>
 
 using namespace std;
 
